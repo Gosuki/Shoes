@@ -1,0 +1,186 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SignIn</title>
+  <script th:src="@{https://kit.fontawesome.com/9f795c2c0d.js}" crossorigin="anonymous"></script>
+  <link rel="stylesheet" th:href="@{css/style.css}">
+</head>
+<style>
+
+</style>
+<body>
+<header class="site-navbar">
+  <div class="site-navbar-top">
+    <div class="container">
+      <div style="display:flex">
+        <div class="search col-md-3 padding-15rf">
+          <form action="">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" name="" id="" placeholder="Search">
+          </form>
+        </div>
+        <div class="logo col-md-3 text-center padding-15rf">
+          <a th:href="@{index}">Shoppers</a>
+        </div>
+        <div class="info col-md-3 text-right padding-15rf">
+          <div class="info-icon">
+            <ul>
+              <li><a th:href="@{sign-in}"><i class="fa-solid fa-user"></i></a></li>
+              <li><a th:href="@{account-info}"><i class="fa-regular fa-heart"></i></a></li>
+              <li><a th:href="@{cart}" class="shopping"><i class="fa-solid fa-cart-shopping"></i> <span>2</span></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="site-navigation">
+    <div class="container">
+      <ul class="site-menu text-center">
+        <li><a th:href="@{index}">Home</a></li>
+        <li><a th:href="@{shop}">Shop</a></li>
+        <li class="has-child">
+          <a th:href="@{shop}">product</a>
+          <ul class="dropdown">
+            <li><a th:href="@{/men}">For Men</a></li>
+            <li><a th:href="@{/children}">For Children</a></li>
+            <li><a th:href="@{/women}">For Women</a></li>
+          </ul>
+        </li>
+        <li><a th:href="@{about}">About Us</a></li>
+        <li><a th:href="@{contact}">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+<div class="site-heading">
+  <div class="heading-container">
+    <div class="content">
+      <a th:href="@{index}">Home</a>
+      <span>/</span>
+      <strong>Sign In</strong>
+    </div>
+  </div>
+</div>
+<div class="site-section-signin">
+  <div class="signin-container">
+    <div class="signin-heading">
+      <h2>Sign In</h2>
+    </div>
+    <div style="display: flex;">
+      <div class="signin-left">
+        <form action="">
+          <div class="signin-form">
+            <div class="row-item">
+              <label for="user">Username <span>*</span></label>
+              <input type="text" name="" id="user" placeholder="Username/Email/Phone">
+            </div>
+            <div class="row-item">
+              <label for="Password">Password <span>*</span></label>
+              <input type="password" name="" id="Password" placeholder="Password">
+            </div>
+            <br>
+            <div class="row-item">
+              <div class="sumbit-sign">
+                <input type="submit" value="SIGN IN">
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="signin-right">
+        <h2>CREATE NEW ACCOUNT? <span>*</span></h2>
+        <hr>
+        <br>
+        <div class="signin-right-btn">
+          <a th:href="@{sign-up}">CREATE ACCOUNT</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>
+  <div class="footer-container">
+    <div class="footer-container-main">
+      <div class="footer-naviga">
+        <div class="naviga-heading">
+          <h2>Navogation</h2>
+        </div>
+        <div class="naviga-list-items">
+          <div class="nav-item">
+            <ul>
+              <li><a href="">Sell online</a></li>
+              <li><a href="">Features</a></li>
+              <li><a href="">Shopping cart</a></li>
+              <li><a href="Store builder"></a></li>
+            </ul>
+          </div>
+          <div class="nav-item">
+            <ul>
+              <li><a href="">Mobile commerce</a></li>
+              <li><a href="">Dropshipping</a></li>
+              <li><a href="">Website development</a></li>
+            </ul>
+          </div>
+          <div class="nav-item">
+            <ul>
+              <li><a href="">Point of sale</a></li>
+              <li><a href="">Hardware</a></li>
+              <li><a href="Sofware"></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-promo">
+        <div class="promo-heading">
+          <h2>Promo</h2>
+        </div>
+        <a href="#">
+          <img src="./img/hero_1.jpg" alt="">
+          <h3>Finding Your Perfect Shoes</h3>
+          <p>Promo from. January 14-30,2023</p>
+        </a>
+      </div>
+      <div class="footer-contact">
+        <div class="contact-info">
+          <div class="contact-info-heaing">
+            <h2>Contact Info</h2>
+          </div>
+          <div class="contact-content">
+            <ul>
+              <li>
+                <i class="fa-solid fa-location-dot"></i>
+                203 Fake St. Mountain View, San Francisco, California, USA
+              </li>
+              <li>
+                <i class="fa-solid fa-phone"></i>
+                <a href="#">+2 392 3929 210</a>
+              </li>
+              <li>
+                <i class="fa-solid fa-envelope"></i>
+                emailaddress@domain.com
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="contact-sub">
+          <form action="#" method="post">
+            <label>Subscribe</label>
+            <div class="form-group">
+              <input type="text" name="email" id="Email"  placeholder="Email">
+              <input type="submit" name="send" id="Send" value="SEND">
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="coppy-r">
+    <p>Copyright @2023 All rights reserved</p>
+  </div>
+</footer>
+</body>
+</html>
