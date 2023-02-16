@@ -13,7 +13,6 @@ import static jakarta.persistence.CascadeType.PERSIST;
 @Entity
 @Setter
 @Getter
-@NoArgsConstructor
 @Table(name = "categories")
 public class Category {
     @Id
@@ -21,7 +20,7 @@ public class Category {
     private Long id;
     private String name;
     @OneToMany( cascade = PERSIST ,fetch = FetchType.LAZY, mappedBy = "category", orphanRemoval = true)
-    private List<Products> productsList = new ArrayList<>();
+    private List<Product> productList = new ArrayList<>();
 
 
 }

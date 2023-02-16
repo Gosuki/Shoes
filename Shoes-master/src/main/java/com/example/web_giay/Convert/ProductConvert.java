@@ -1,13 +1,13 @@
 package com.example.web_giay.Convert;
 
-import com.example.web_giay.dto.ProductsDTO;
-import com.example.web_giay.entity.Products;
+import com.example.web_giay.dto.ProductDTO;
+import com.example.web_giay.entity.Product;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ProductConvert {
-    public ProductsDTO toDTO(Products product){
-        ProductsDTO dto = new ProductsDTO();
+    public ProductDTO toDTO(Product product){
+        ProductDTO dto = new ProductDTO();
         if(product.getId()!=null){
             dto.setId(product.getId());
         }
@@ -20,15 +20,15 @@ public class ProductConvert {
         dto.setCategoryid(product.getCategory().getId());
         return dto;
     }
-    public Products toEntity(ProductsDTO productsDTO){
-        Products entity = new Products();
-        entity.setName(productsDTO.getName());
-        entity.setPrice(productsDTO.getPrice());
-        entity.setStatusId(productsDTO.getStatusId());
-        entity.setUrlImage(productsDTO.getUrlImage());
+    public Product toEntity(ProductDTO productDTO){
+        Product entity = new Product();
+        entity.setName(productDTO.getName());
+        entity.setPrice(productDTO.getPrice());
+        entity.setStatusId(productDTO.getStatusId());
+        entity.setUrlImage(productDTO.getUrlImage());
         return entity;
     }
-    public Products toEntity(ProductsDTO DTO,Products entity){
+    public Product toEntity(ProductDTO DTO, Product entity){
         entity.setName(DTO.getName());
         entity.setPrice(DTO.getPrice());
         entity.setStatusId(DTO.getStatusId());

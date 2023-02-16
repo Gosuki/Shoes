@@ -1,9 +1,9 @@
 package com.example.web_giay.service.Imp;
 
 import com.example.web_giay.Convert.ProductConvert;
-import com.example.web_giay.dto.ProductsDTO;
+import com.example.web_giay.dto.ProductDTO;
 import com.example.web_giay.entity.Category;
-import com.example.web_giay.entity.Products;
+import com.example.web_giay.entity.Product;
 import com.example.web_giay.repository.CategoryRepository;
 import com.example.web_giay.repository.DescriptionRepository;
 import com.example.web_giay.repository.ProductRepository;
@@ -31,7 +31,7 @@ public class ProductImp implements ProductService {
        for (Long item:ids){
            if(productRepository.findOneById(item)!=null){
                productRepository.deleteById(item);
-               descriptionRepository.delete(descriptionRepository.findDescriptionByProducts(productRepository.findOneById(item)));
+               descriptionRepository.delete(descriptionRepository.findDescriptionByProduct(productRepository.findOneById(item)));
            }
            else {
                return "Not found ID";
@@ -41,91 +41,66 @@ public class ProductImp implements ProductService {
     }
 
     @Override
-    public ProductsDTO saveProduct(ProductsDTO productsDTO) {
-        Products product = new Products();
-        if (productsDTO.getId()!=null){
-          Products oldproduct = productRepository.findOneById(productsDTO.getId());
-            product = productConvert.toEntity(productsDTO,oldproduct);
+    public ProductDTO saveProduct(ProductDTO productDTO) {
+        Product product = new Product();
+        if (productDTO.getId()!=null){
+          Product oldproduct = productRepository.findOneById(productDTO.getId());
+            product = productConvert.toEntity(productDTO,oldproduct);
         } else {
-            product = productConvert.toEntity(productsDTO);
+            product = productConvert.toEntity(productDTO);
         }
-        Category category= categoryRepository.findOneByName(productsDTO.getCategoryname());
+        Category category= categoryRepository.findOneByName(productDTO.getCategoryname());
         product.setCategory(category);
         product = productRepository.save(product);
         return productConvert.toDTO(product);
     }
 
     @Override
-    public ProductsDTO searchProductById(Long id) {
-        Products product=productRepository.findOneById(id);
+    public ProductDTO searchProductById(Long id) {
+        Product product=productRepository.findOneById(id);
         if(product!=null){
             return productConvert.toDTO(product);
         }else{
             return null;
         }
     }
-
     @Override
-    public ProductsDTO searchProductByName(String name) {
-        Products product=productRepository.findProductsByName(name);
-        if(product!=null){
-            return productConvert.toDTO(product);
-        }else{
-            return null;
-        }
-    }
-    public List<ProductsDTO> searchListProductByNameLike(String name) {
-        List<Products> product=productRepository.searchProductsByNameLike(name);
-        List<ProductsDTO> productsDTOList = new ArrayList<>();
-        if(product!=null){
-           for(Products temp:product){
-               productsDTOList.add(productConvert.toDTO(temp));
-           }
-           return productsDTOList;
-        }else{
-            return null;
-        }
-    }
-
-    @Override
-    public List<ProductsDTO> searchProductPrice(double price) {
-        List<Products> productsList= productRepository.findProductsByPrice(price);
-        List<ProductsDTO> productsDTOList = new ArrayList<>();
-        if(productsList!=null){
-            for (Products temp: productsList){
-                productsDTOList.add(productConvert.toDTO(temp));
+    public List<ProductDTO> searchProductByNameLikeOrPrice(String name, double price) {
+        if (name != null) {
+            if (price > 0) {
+                List<Product> productList= productRepository.searchProductByNameLikeOrPrice(name, price);
+                return getProductDTOS(productList);
+            } else {
+                List<Product> productList= productRepository.searchProductByNameLike(name);
+                return getProductDTOS(productList);
             }
-            return productsDTOList;
-        } else
-        {
-            return null;
+        } else if (price>0) {
+            List<Product> productList= productRepository.findProductByPrice(price);
+        } else {
+            return getProductDTOS(productRepository.findAll());
         }
+        return null;
     }
 
     @Override
-    public List<ProductsDTO> searchProductPriceRage(double startprice,double endprice) {
-        List<Products> productsList= productRepository.findProductsByPriceBetween(startprice,endprice);
-        List<ProductsDTO> productsDTOList = new ArrayList<>();
-        if(productsList!=null){
-            for (Products temp: productsList){
-                productsDTOList.add(productConvert.toDTO(temp));
-            }
-            return productsDTOList;
-        } else
-        {
-            return null;
-        }
+    public List<ProductDTO> searchProductPriceRage(double startprice, double endprice) {
+        List<Product> productList = productRepository.findProductByPriceBetween(startprice,endprice);
+        return getProductDTOS(productList);
     }
 
     @Override
-    public List<ProductsDTO> searchProductByCategoryName(String name) {
-        List<Products> productsList = productRepository.findProductsByCategory_Name(name);
-        List<ProductsDTO> productsDTOList = new ArrayList<>();
-        if(productsList!=null){
-            for (Products temp: productsList){
-                productsDTOList.add(productConvert.toDTO(temp));
+    public List<ProductDTO> searchProductByCategoryName(String name) {
+        List<Product> productList = productRepository.findProductByCategoryName(name);
+        return getProductDTOS(productList);
+    }
+
+    private List<ProductDTO> getProductDTOS(List<Product> productList) {
+        List<ProductDTO> productDTOList = new ArrayList<>();
+        if(productList !=null){
+            for (Product temp: productList){
+                productDTOList.add(productConvert.toDTO(temp));
             }
-            return productsDTOList;
+            return productDTOList;
         } else
         {
             return null;

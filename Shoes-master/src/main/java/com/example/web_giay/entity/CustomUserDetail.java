@@ -12,7 +12,7 @@ import java.util.Collections;
 @Data
 @AllArgsConstructor
 public class CustomUserDetail implements UserDetails {
-    Users user;
+    User user;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority("ROLE_CLIENT"));

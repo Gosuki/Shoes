@@ -3,7 +3,7 @@ package com.example.web_giay.service.Imp;
 import com.example.web_giay.dto.UserDTO;
 import com.example.web_giay.entity.CustomUserDetail;
 import com.example.web_giay.entity.SignUpToken;
-import com.example.web_giay.entity.Users;
+import com.example.web_giay.entity.User;
 import com.example.web_giay.repository.TokenRepository;
 import com.example.web_giay.repository.UserRepository;
 import com.example.web_giay.service.UserService;
@@ -11,9 +11,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -21,7 +19,7 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -34,9 +32,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     @Transactional
-    public Users signUp(UserDTO userDTO) {
+    public User signUp(UserDTO userDTO) {
         logger.info("On sign up");
-        Users user = new Users();
+        User user = new User();
         user.setPhone(userDTO.getPhone());
         user.setEmail(userDTO.getEmail());
         user.setDisplayName(userDTO.getFullName());
@@ -44,7 +42,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setPassword(userDTO.getPassword());
         user.setUsername(userDTO.getUsername());
         user.setRole(userDTO.getRole());
-        Users savedUser = userRepository.save(user);
+        User savedUser = userRepository.save(user);
         generateToken(savedUser);
         return savedUser;
     }
@@ -56,7 +54,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             return "Activate failed";
         }
         SignUpToken signUpToken = optionalSignUpToken.get();
-        Users user = signUpToken.getUser();
+        User user = signUpToken.getUser();
         user.setActive(true);
         userRepository.save(user);
         return "Activate successfully";
@@ -65,7 +63,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public String deleteUser(Long[] ids) {
         for(Long item:ids){
-            if(userRepository.findUsersById(item)!=null){
+            if(userRepository.findUserById(item)!=null){
                 userRepository.deleteById(item);
             } else {
                 return "Not found userid";
@@ -75,7 +73,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
 
-    private void generateToken(Users user) {
+    private void generateToken(User user) {
         UUID token = UUID.randomUUID();
         SignUpToken signUpToken = new SignUpToken();
         signUpToken.setUser(user);
@@ -92,12 +90,4 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         logger.info("Send email activate successfully");
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users user = userRepository.findUsersByUsernameAndActive(username,true);
-        if (user == null) {
-            throw new UsernameNotFoundException(username);
-        }
-        return new CustomUserDetail(user);
-    }
 }

@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 
@@ -14,7 +13,7 @@ import static jakarta.persistence.CascadeType.PERSIST;
 @Getter
 @Entity
 @Table(name = "products")
-public class Products extends BaseEntity{
+public class Product extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,7 +30,7 @@ public class Products extends BaseEntity{
     @Column(name = "url_img")
     private String urlImage;
 
-    @OneToOne(cascade = PERSIST, mappedBy = "products")
+    @OneToOne(cascade = PERSIST, mappedBy = "product")
     private Description description;
 
 

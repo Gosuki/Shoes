@@ -9,7 +9,6 @@ import lombok.Setter;
 @Entity
 @Setter
 @Getter
-@NoArgsConstructor
 @Table(name = "description")
 public class Description {
 
@@ -18,7 +17,7 @@ public class Description {
     private Long id;
     @OneToOne
     @JoinColumn(name = "id_product", referencedColumnName = "id")
-    private Products products;
+    private Product product;
 
     @Column(name = "code")
     private String code;

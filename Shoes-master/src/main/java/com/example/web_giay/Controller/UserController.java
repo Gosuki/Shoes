@@ -3,7 +3,7 @@ package com.example.web_giay.Controller;
 import com.example.web_giay.dto.BaseResponse;
 import com.example.web_giay.dto.ChangePasswordRequest;
 import com.example.web_giay.dto.UserDTO;
-import com.example.web_giay.entity.Users;
+import com.example.web_giay.entity.User;
 import com.example.web_giay.repository.UserRepository;
 import com.example.web_giay.service.UserService;
 import lombok.AllArgsConstructor;
@@ -25,13 +25,13 @@ public class UserController {
         if(userRepository.findUsersByUsernameAndActive(user.getUsername(),true) != null ){
             return ResponseEntity.ok(new BaseResponse(HttpStatus.BAD_REQUEST.value(), null,"Username is already taken or Email is already taken!"));
         }else {
-            Users savedUser = userService.signUp(user);
+            User savedUser = userService.signUp(user);
             return ResponseEntity.ok(new BaseResponse(HttpStatus.OK.value(), null, "Please check email register"));
         }
     }
     @GetMapping("/sign-in")
     public ResponseEntity<?> signIn(@RequestParam(value = "username") String username,@RequestParam(value = "pass") String password){
-        Users users =userRepository.findUsersByUsernameAndActive(username,true);
+        User users =userRepository.findUsersByUsernameAndActive(username,true);
         if(users!=null && users.getPassword().contains(password)){
             return ResponseEntity.ok(new BaseResponse(HttpStatus.OK.value(), null, "Sign in successful"));
         } else {
@@ -46,7 +46,7 @@ public class UserController {
     }
     @PutMapping("/update/{name}")
     public ResponseEntity<?> updateUser(@PathVariable(value = "name") String name, @RequestBody ChangePasswordRequest passwordRequest){
-        Users userSaved = userRepository.findUsersByUsernameAndActive(name,true);
+        User userSaved = userRepository.findUsersByUsernameAndActive(name,true);
         if(passwordRequest.getPassword().equals(userSaved.getPassword()) ){
             if(passwordRequest.getNewPassword().equals(passwordRequest.getConfirmNewPassword())){
                 userSaved.setPassword(passwordRequest.getNewPassword());
